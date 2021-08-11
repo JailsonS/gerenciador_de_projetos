@@ -11,7 +11,7 @@ class CreateProjects extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
@@ -55,5 +55,7 @@ class CreateProjects extends Migration
         Schema::dropIfExists('projects');
         Schema::dropIfExists('farmers');
         Schema::dropIfExists('farms');
+        Schema::dropIfExists('projects_has_farms');
+        Schema::dropIfExists('car');
     }
 }
