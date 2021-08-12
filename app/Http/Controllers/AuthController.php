@@ -10,17 +10,25 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-
+        $this->middleware('auth:api', [
+            'except' => ['login', 'unauthorized']
+        ]);
     }
 
     public function login(Resquet $request)
     {   
+        $response = ['error' => ''];
 
     }
 
     public function refresh(): array
     {   
+        $response = [];
         
+        $token = auth()->refresh();
+        $response['token'] = $token;
+
+        return $response;
     }
 
     public function logout(): array
