@@ -8,17 +8,23 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function __construct()
+    private RepositoryUser $repositoryUser;
+
+    public function __construct(RepositoryUser $repositoryUser)
     {
         $this->middleware('auth:api', [
             'except' => ['login', 'unauthorized']
         ]);
+
+        $this->repositoryUser = $repositoryUser;
     }
 
-    public function login(Resquet $request)
-    {   
-        $response = ['error' => ''];
+    public function login(Resquet $request): array
+    {
+        $email = new Email($requent->input('email'));
+        $password = $request->input('password');
 
+        return $this->repositoryUser->doLogin($email, $password);      
     }
 
     public function refresh(): array
