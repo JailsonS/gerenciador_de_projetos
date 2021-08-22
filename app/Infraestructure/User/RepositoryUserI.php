@@ -4,6 +4,7 @@ namespace App\Infraestructure\User;
 use App\Models\Email;
 use App\Models\User\User;
 use App\Models\User\RepositoryUser;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
 
 class RepositoryUserI implements RepositoryUser
