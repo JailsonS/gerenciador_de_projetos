@@ -3,34 +3,41 @@
 namespace App\Http\Controllers;
 
 use App\Models\User\User;
-use Illuminate\Http\Request;
 use App\Models\User\RepositoryUser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Infraestructure\User\RepositoryUserI;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {   
 
-    private RepositoryUser $repositoryUser;
-
-    public function __construct(RepositoryUser $repositoryUser)
+    public function __construct()
     {
         $this->middleware('auth:api', [
             'except' => ['create', 'login']
         ]);
-
-        $this->repositoryUser = $repositoryUser;
+        
+        $this->repositoryUser = new RepositoryUserI();
     }
 
-    public function create(Resquest $request): mixed  
+    public function create(Request $request): array  
     {
+
+        $repositoryUser = new RepositoryUserI();
+
         $userInfo = [
             'name' => $request->input('name'),
             'email' => $request->input('email'),
+            'password' => $request->input('password'),
             'phone' => $request->input('phone'),
             'cellphone' => $request->input('cellphone'),
         ];
 
-        $this->repositoryUser->createUser($userInfo);
+        
+
+        return $repositoryUser->createUser($userInfo);
+
+
     }
 }

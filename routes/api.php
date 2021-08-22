@@ -16,7 +16,7 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::post('/401', [AuthController::class, 'unauthorized']);
+Route::get('/401', [AuthController::class, 'unauthorized']);
 
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/logout', [AuthController::class, 'logout']);

@@ -10,10 +10,6 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
-    protected array $hidden = [
-        'password',
-    ];
-
     public function getJWTIdentifier()
     {
         return $this->getKey();

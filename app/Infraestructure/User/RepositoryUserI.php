@@ -30,7 +30,7 @@ class RepositoryUserI implements RepositoryUser
         return $response;
     }
 
-    public function createUser(array $userInfo): mixed
+    public function createUser(array $userInfo): array
     {
         $response = ['error' => ''];
 
@@ -44,13 +44,17 @@ class RepositoryUserI implements RepositoryUser
             return $response;
         }
 
-        $hash = password_hash($request->input('password'), PASSWORD_ARGON2ID);
-        $email = new Email($request->input('email'));
+        $hash = password_hash($userInfo['password'], PASSWORD_ARGON2ID);
+        $email = new Email($userInfo['email']);
 
         $newUser = new User();
-        $newUser->name = $request->input('name');
+        $newUser->name = $userInfo['name'];
         $newUser->email = $email;
         $newUser->password = $hash;
         $newUser->save();
+
+        $response['message'] = 'Usuário criado com sucesso!';
+
+        return $response;
     }
 }

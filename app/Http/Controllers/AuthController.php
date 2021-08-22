@@ -10,13 +10,11 @@ class AuthController extends Controller
 {
     private RepositoryUser $repositoryUser;
 
-    public function __construct(RepositoryUser $repositoryUser)
+    public function __construct()
     {
         $this->middleware('auth:api', [
             'except' => ['login', 'unauthorized']
         ]);
-
-        $this->repositoryUser = $repositoryUser;
     }
 
     public function login(Resquet $request): array

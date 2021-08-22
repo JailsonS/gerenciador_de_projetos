@@ -7,5 +7,5 @@ use App\Models\Phone;
 interface RepositoryUser
 {
     public function doLogin(Email $email, string $password): array;
-    public function createUser(array $userInfo): mixed;
+    public function createUser(array $userInfo): array;
 }
