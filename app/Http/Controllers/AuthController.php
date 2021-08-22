@@ -21,10 +21,14 @@ class AuthController extends Controller
 
     public function login(Resquet $request): array
     {
+        $response = [];
+
         $email = new Email($requent->input('email'));
         $password = $request->input('password');
 
-        return $this->repositoryUser->doLogin($email, $password);      
+        $response = $this->repositoryUser->doLogin($email, $password);    
+
+        return $response;
     }
 
     public function refresh(): array
@@ -32,6 +36,9 @@ class AuthController extends Controller
         $response = [];
         
         $token = auth()->refresh();
+        $userData = auth()->user();
+
+        $response['data'] = $userData;
         $response['token'] = $token;
 
         return $response;

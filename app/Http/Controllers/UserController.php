@@ -4,39 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Models\User\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\Models\User\RepositoryUser;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
-{
-    public function __construct()
+{   
+
+    private RepositoryUser $repositoryUser;
+
+    public function __construct(RepositoryUser $repositoryUser)
     {
         $this->middleware('auth:api', [
             'except' => ['create', 'login']
         ]);
+
+        $this->repositoryUser = $repositoryUser;
     }
 
-    public function create(Resquest $request): array  
+    public function create(Resquest $request): mixed  
     {
+        $userInfo = [
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'phone' => $request->input('phone'),
+            'cellphone' => $request->input('cellphone'),
+        ];
 
-        $response = ['error' => ''];
-
-        $validation = Validator::make($request->all(), [
-            'email' => 'required|unique:users|max:150|email',
-            'name' => 'required|string|max:150'
-        ]);
-
-        if($validation->fails()) {
-            $response['error'] = 'Formato de dados inválidos!';
-            return $response;
-        }
-
-        $hash = password_hash($request->input('password'), PASSWORD_DEFAULT);
-
-        $newUser = new User();
-        $newUser->name = $request->input('name');
-        $newUser->email = $request->input('email');
-        $newUser->password = $hash;
-        $newUser->save();
+        $this->repositoryUser->createUser($userInfo);
     }
 }
