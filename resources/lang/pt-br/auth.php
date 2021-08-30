@@ -16,5 +16,5 @@ return [
     'failed' => 'E-mail e/ou senha incorretos.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-
+    'incorrect_format' => 'Formato de dados inválidos.',
 ];

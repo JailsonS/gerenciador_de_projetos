@@ -3,13 +3,13 @@ namespace App\Repositories\User;
 
 use App\Models\Email;
 use App\Models\User\User;
-use App\Repositories\Elloquent\RepositoryBase;
+use App\Repositories\Elloquent\RepositoryBase as RepositoryBaseElloquent;
 
-class RepositoryUser extends RepositoryBase implements RepositoryUserInterface
+class RepositoryUser extends RepositoryBaseElloquent implements RepositoryUserInterface
 {
     protected $model = User::class;
 
-    public function login(Email $email, string $password): array
+    public function createUser(array $attributes): array
     {
         
     }

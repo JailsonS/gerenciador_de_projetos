@@ -3,35 +3,34 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    private RepositoryUser $repositoryUser;
+    private RepositoryAuthInterface $repositoryAuth;
 
-    public function __construct()
+    public function __construct(RepositoryAuthInterface $repositoryAuth)
     {
         $this->middleware('auth:api', [
             'except' => ['login', 'unauthorized']
         ]);
+
+        $this->repositoryAuth = $repositoryAuth;
     }
 
     public function login(Resquet $request): array
     {
-        $response = [];
-
         $email = new Email($requent->input('email'));
         $password = $request->input('password');
 
-        $response = $this->repositoryUser->doLogin($email, $password);    
+        $response = $this->repositoryUser->login($email, $password);    
 
         return $response;
     }
 
     public function refresh(): array
     {   
-        $response = [];
+        $response = ['error' => ''];
         
         $token = auth()->refresh();
         $userData = auth()->user();
