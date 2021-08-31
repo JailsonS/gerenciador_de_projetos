@@ -35,8 +35,19 @@ class RepositoryUser extends RepositoryBaseElloquent implements RepositoryUserIn
         $attributes['password'] = password_hash($attributes['password'], PASSWORD_ARGON2ID);
 
         $user = $this->model->create($attributes);
+        
+        $token = auth()->attempt([
+            'email' => $attributes['email'],
+            'password' => $attributes['password']
+        ]);
+
+        if(!$token) {
+            $response['error'] = Lang::get('auth.failed');
+            return $response;
+        }
 
         $response['data'] = $user;
+        $response['token'] = $token;
         $response['message'] = Lang::get('end.success', ['object' => 'Usuário']);
 
         return $response;
