@@ -32,6 +32,7 @@ class RepositoryUser extends RepositoryBaseElloquent implements RepositoryUserIn
         }
 
         unset($attributes['password_confirm']);
+        $attributes['password'] = password_hash($attributes['password'], PASSWORD_ARGON2ID);
 
         $user = $this->model->create($attributes);
 

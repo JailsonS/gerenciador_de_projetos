@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Email;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\Auth\RepositoryAuthInterface;
 
 class AuthController extends Controller
 {
@@ -18,12 +20,12 @@ class AuthController extends Controller
         $this->repositoryAuth = $repositoryAuth;
     }
 
-    public function login(Resquet $request): array
+    public function login(Request $request): array
     {
-        $email = new Email($requent->input('email'));
+        $email = new Email($request->input('email'));
         $password = $request->input('password');
 
-        $response = $this->repositoryUser->login($email, $password);    
+        $response = $this->repositoryAuth->login($email, $password);    
 
         return $response;
     }
