@@ -41,6 +41,7 @@ class RepositoryAuth extends RepositoryBaseElloquent implements RepositoryAuthIn
 
         $user = auth()->user();
         $response['data'] = $user;
+        $response['token'] = $token;
 
         return $response;
     }
