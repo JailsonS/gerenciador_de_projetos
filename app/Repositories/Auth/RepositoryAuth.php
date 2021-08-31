@@ -8,7 +8,13 @@ use App\Repositories\Elloquent\RepositoryBase as RepositoryBaseElloquent;
 
 class RepositoryAuth extends RepositoryBaseElloquent implements RepositoryAuthInterface
 {
-    protected $model = User::class;
+    /**
+     * @param Model $model in RepositoryBase
+     */
+    public function __construct(User $model) 
+    {
+        parent::__construct($model);
+    }
 
     public function login(Email $email, string $password): array
     {
