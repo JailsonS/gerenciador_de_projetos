@@ -4,6 +4,7 @@ namespace App\Repositories\User;
 use App\Models\Email;
 use App\Models\User\User;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Validator;
 use App\Repositories\Elloquent\RepositoryBase as RepositoryBaseElloquent;
 
 class RepositoryUser extends RepositoryBaseElloquent implements RepositoryUserInterface
@@ -25,9 +26,12 @@ class RepositoryUser extends RepositoryBaseElloquent implements RepositoryUserIn
         $validation = $this->validate($attributes);
 
         if($validation->fails()) {
-            $response['error'] = Lang::get('validation.mimetypes');
+            $erros = $validation->errors()->all();
+            $response['error'] = implode(',', $erros);
             return $response;
         }
+
+        unset($attributes['password_confirm']);
 
         $user = $this->model->create($attributes);
 
@@ -48,12 +52,13 @@ class RepositoryUser extends RepositoryBaseElloquent implements RepositoryUserIn
     /**
      * @param assoc array
      */
-    public function validate(array $attributes): bool
+    public function validate(array $attributes)
     {
         return Validator::make($attributes, [
             'name' => 'required|string|max:150',
             'email' => 'required|email|unique:users',
-            'password' => 'required|string',
+            'password' => 'required|string|same:password_confirm',
+            'password_confirm' => 'required|string|same:password',
         ]);
     }
 }

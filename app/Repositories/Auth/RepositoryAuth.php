@@ -4,6 +4,7 @@ namespace App\Repositories\Auth;
 use App\Models\Email;
 use App\Models\User\User;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Validator;
 use App\Repositories\Elloquent\RepositoryBase as RepositoryBaseElloquent;
 
 class RepositoryAuth extends RepositoryBaseElloquent implements RepositoryAuthInterface
@@ -26,7 +27,8 @@ class RepositoryAuth extends RepositoryBaseElloquent implements RepositoryAuthIn
         ];
 
         if($this->validate($inputData)->fails()) {
-            $response['error'] = Lang::get('auth.incorrect_format');
+            $erros = $validation->errors()->all();
+            $response['error'] = implode(',', $erros);
             return $response;
         }
 
@@ -46,7 +48,7 @@ class RepositoryAuth extends RepositoryBaseElloquent implements RepositoryAuthIn
     /**
      * @param $attributes assoc array
      */
-    public function validate(array $attributes): bool 
+    public function validate(array $attributes) 
     {
         return Validator::make($attributes, [
             'email' => 'required|email|max:150',

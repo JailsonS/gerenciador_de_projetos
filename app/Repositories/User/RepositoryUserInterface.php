@@ -7,5 +7,5 @@ interface RepositoryUserInterface
 {
     public function findById(int $id): array;
     public function createUser(array $attributes): array;
-    public function validate(array $attributes): bool;
+    public function validate(array $attributes);
 }

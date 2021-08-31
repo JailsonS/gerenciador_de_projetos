@@ -9,6 +9,10 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
+    
+    protected $fillable = [
+        'name', 'email', 'password', 'phone', 'cellphone'
+    ];
 
     public function getJWTIdentifier()
     {

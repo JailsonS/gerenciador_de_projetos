@@ -25,10 +25,11 @@ class UserController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => $request->input('password'),
+            'password_confirm' => $request->input('password_confirm'),
             'phone' => $request->input('phone'),
             'cellphone' => $request->input('cellphone'),
         ];
 
-        return $repositoryUser->createUser($userInfo);
+        return $this->repositoryUser->createUser($userInfo);
     }
 }
