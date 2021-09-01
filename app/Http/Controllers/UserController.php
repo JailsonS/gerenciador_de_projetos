@@ -47,4 +47,23 @@ class UserController extends Controller
 
         return $this->repositoryUser->updateUser($userInfo, $this->loggedUser->id);
     }
+
+    public function read(): array  
+    {
+        $response = ['error' => ''];
+
+        $response['data'] = $this->loggedUser;
+
+        return $response;
+    }
+
+    public function list(): array  
+    {
+        return $this->repositoryUser->list();
+    }
+
+    public function one($id): array  
+    {
+        return $this->repositoryUser->findById($id); 
+    }
 }

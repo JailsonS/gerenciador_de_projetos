@@ -79,12 +79,22 @@ class RepositoryUser extends RepositoryBaseElloquent implements RepositoryUserIn
         return $response;
     }
 
-    /**
-     * @return User[]
-     */
+    public function list(): array  
+    {
+        $response = ['error' => ''];
+
+        $response['data'] = $this->model::all();
+
+        return $response;
+    }
+
     public function findById(int $id): array
     {
-        
+        $response = ['error' => ''];
+
+        $response['data'] = $this->model::find($id);
+
+        return $response;
     }
 
     /**
