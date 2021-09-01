@@ -26,9 +26,10 @@ class RepositoryAuth extends RepositoryBaseElloquent implements RepositoryAuthIn
             'password' => $password
         ];
 
-        if($this->validate($inputData)->fails()) {
-            $erros = $validation->errors()->all();
-            $response['error'] = implode(',', $erros);
+        $validation = $this->validate($inputData);
+
+        if($validation->fails()) {
+            $response['error'] = $validation->messages();
             return $response;
         }
 
