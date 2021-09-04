@@ -30,3 +30,10 @@ Route::get('/users', [UserController::class, 'list']);
 Route::get('/users/{id}', [UserController::class, 'one']);
 Route::put('/users/{id}/update', [UserController::class, 'updateOneUser']);
 Route::get('/users/{id}/delete', [UserController::class, 'deleteOneUser']);
+
+
+
+
+
+
+
