@@ -66,4 +66,27 @@ class UserController extends Controller
     {
         return $this->repositoryUser->findById($id); 
     }
+
+    /**
+     * @param User $id
+     */
+    public function updateOneUser(Request $request, $id): array 
+    {
+        $userInfo = [
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'phone' => $request->input('phone'),
+            'cellphone' => $request->input('cellphone'),
+        ];
+
+        return $this->repositoryUser->updateUser($userInfo, $id);
+    }
+
+    /**
+     * @param User $id
+     */
+    public function deleteOneUser($id): array 
+    {
+        return $this->repositoryUser->delete($id);
+    }
 }

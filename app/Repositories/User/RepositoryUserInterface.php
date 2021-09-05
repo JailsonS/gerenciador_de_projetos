@@ -11,4 +11,5 @@ interface RepositoryUserInterface
     public function list(): array;
     public function validateOnCreate(array $attributes);
     public function validateOnUpdate(array $attributes);
+    public function delete(int $id): array;
 }

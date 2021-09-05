@@ -3,6 +3,7 @@ namespace App\Repositories\User;
 
 use App\Models\Email;
 use App\Models\User\User;
+use App\Models\User\Password;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
 use App\Repositories\Elloquent\RepositoryBase as RepositoryBaseElloquent;
@@ -31,22 +32,9 @@ class RepositoryUser extends RepositoryBaseElloquent implements RepositoryUserIn
         }
 
         unset($attributes['password_confirm']);
-        $attributes['password'] = password_hash($attributes['password'], PASSWORD_ARGON2ID);
+        $attributes['password'] = new Password($attributes['password']);
 
         $user = $this->model->create($attributes);
-        
-        $token = auth()->attempt([
-            'email' => $attributes['email'],
-            'password' => $attributes['password']
-        ]);
-
-        if(!$token) {
-            $response['error'] = Lang::get('auth.failed');
-            return $response;
-        }
-
-        $response['data'] = $user;
-        $response['token'] = $token;
         $response['message'] = Lang::get('end.success', ['object' => 'Usuário']);
 
         return $response;
@@ -93,6 +81,22 @@ class RepositoryUser extends RepositoryBaseElloquent implements RepositoryUserIn
         $response = ['error' => ''];
 
         $response['data'] = $this->model::find($id);
+
+        return $response;
+    }
+
+    public function delete(int $id): array 
+    {
+        $response = ['error' => ''];
+
+        $user = $this->model->find($id);
+
+        if(!$user) {
+            $response['msg'] = Lang::get('end.not_found');;
+            return $response;
+        }
+
+        $user->delete();
 
         return $response;
     }
