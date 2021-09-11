@@ -36,6 +36,7 @@ class RepositoryUser extends RepositoryBaseElloquent implements RepositoryUserIn
         $attributes['password'] = new Password($attributes['password']);
 
         $user = $this->model->create($attributes);
+        
         $response['message'] = Lang::get('end.success', ['object' => 'Usuário']);
 
         return $response;

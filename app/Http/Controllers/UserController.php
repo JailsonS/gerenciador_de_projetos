@@ -25,6 +25,7 @@ class UserController extends Controller
     public function create(Request $request): array  
     {
         $userInfo = [
+            'id_categories' => $request->input('category'),
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => $request->input('password'),
