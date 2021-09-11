@@ -10,6 +10,6 @@ interface RepositoryUserInterface
     public function updateUser(array $attributes, int $id): array;
     public function list(): array;
     public function validateOnCreate(array $attributes);
-    public function validateOnUpdate(array $attributes);
+    public function validateOnUpdate(array $attributes, int $id);
     public function delete(int $id): array;
 }

@@ -11,7 +11,7 @@ class Password
         $this->password = password_hash($password, PASSWORD_ARGON2ID);
     }
 
-    public function verify()
+    public function verify($password)
     {
         if(\preg_match("/\b([a-zA-Z]*[0-9]+[a-zA-Z]*){2,}\b/", $password) !== 1) {
             throw new \InvalidArgumentException(Lang::get('auth.pass_incorrect_format'));

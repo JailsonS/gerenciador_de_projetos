@@ -6,6 +6,7 @@ use App\Models\User\User;
 use App\Models\User\Password;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use App\Repositories\Elloquent\RepositoryBase as RepositoryBaseElloquent;
 
 class RepositoryUser extends RepositoryBaseElloquent implements RepositoryUserInterface
@@ -47,7 +48,7 @@ class RepositoryUser extends RepositoryBaseElloquent implements RepositoryUserIn
     {
         $response = ['error' => ''];
 
-        $validation = $this->validateOnUpdate($attributes);
+        $validation = $this->validateOnUpdate($attributes, $id);
 
         if($validation->fails()) {
             $response['error'] = $validation->messages();
@@ -62,7 +63,7 @@ class RepositoryUser extends RepositoryBaseElloquent implements RepositoryUserIn
         $user->cellphone = $attributes['cellphone'];
         $user->save();
         
-        $response['message'] = Lang::get('end.success', ['object' => 'Usuário']);
+        $response['message'] = Lang::get('end.success_update', ['object' => 'Usuário']);
 
         return $response;
     }
@@ -117,13 +118,13 @@ class RepositoryUser extends RepositoryBaseElloquent implements RepositoryUserIn
     /**
      * @param assoc array
      */
-    public function validateOnUpdate(array $attributes)
+    public function validateOnUpdate(array $attributes, $id)
     {
         return Validator::make($attributes, [
             'name' => 'required|string|max:150',
-            'email' => 'required|email|unique:users',
-            'phone' => 'unique:users|string',
-            'cellphone' => 'unique:users|string',
+            'email' => ['email', 'required', Rule::unique('users')->ignore($id)],
+            'phone' => ['string', Rule::unique('users')->ignore($id)],
+            'cellphone' => ['string', Rule::unique('users')->ignore($id)],
         ]);
     }
 }
